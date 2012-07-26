@@ -5,8 +5,6 @@ import com.jsuereth.sbtsite.SiteKeys._
 import com.jsuereth.sbtsite.JekyllSupport.Jekyll
 import com.jsuereth.ghpages.GhPages.ghpages
 import com.jsuereth.git.GitPlugin.git
-import com.typesafe.tools.mima.plugin.MimaPlugin.mimaDefaultSettings
-import com.typesafe.tools.mima.plugin.MimaKeys.previousArtifact
 
 object ArmDef extends Build {
 
@@ -14,19 +12,16 @@ object ArmDef extends Build {
     organization := "com.jsuereth",
     name := "scala-arm",
     version := "1.3-SNAPSHOT",
-    scalaVersion := "2.9.1",
+    scalaVersion := "2.10.0-SNAPSHOT",
     crossScalaVersions := Seq("2.9.1"),
+    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     resolvers += "junit interface repo" at "https://repository.jboss.org/nexus/content/repositories/scala-tools-releases",
     resolvers += "java.net repo" at "http://download.java.net/maven/2/",
     libraryDependencies ++= dependencies,
     autoCompilerPlugins := true,
     addContinuations,
     scalacOptions += "-P:continuations:enable"
-  ) settings(publishSettings:_*) settings(websiteSettings:_*)) settings(bcSettings:_*)
-
-  def bcSettings: Seq[Setting[_]] = mimaDefaultSettings ++ Seq(
-    previousArtifact := Some("com.jsuereth" % "scala-arm_2.9.1" % "1.2")
-  )
+  ) settings(publishSettings:_*) settings(websiteSettings:_*))
 
   def publishSettings: Seq[Setting[_]] = Seq(
     // If we want on maven central, we need to be in maven style.
